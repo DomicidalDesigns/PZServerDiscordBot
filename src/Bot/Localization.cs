@@ -220,7 +220,7 @@ public static class Localization
 
         // -------- !game_date
         { "disc_cmd_game_date_warn_file", "Couldn't find the time file." },
-        { "disc_cmd_game_date_response", "```Current in-game date: {day}/{month}/{year}```*(Date is in DD-MM-YYYY aka European format)*" },
+        { "disc_cmd_game_date_response", "```Current in-game date: {day}/{month}/{year} {time}```*(Date is in DD-MM-YYYY aka European format)*" },
 
         // Schedules
         // ---- Display Names

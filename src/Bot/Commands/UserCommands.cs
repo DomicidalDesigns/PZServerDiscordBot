@@ -53,9 +53,16 @@ public class UserCommands : ModuleBase<SocketCommandContext>
 
         // All bytes are in Big-Endian order
         byte[] fileBytes  = File.ReadAllBytes(mapTimeFile);
+        byte[] timeBytes  = fileBytes.Skip(0x18).Take(4).ToArray();
         byte[] dayBytes   = fileBytes.Skip(0x1C).Take(4).ToArray(); 
         byte[] monthBytes = fileBytes.Skip(0x20).Take(4).ToArray();
         byte[] yearBytes  = fileBytes.Skip(0x24).Take(4).ToArray();
+
+        
+        Array.Reverse(timeBytes);
+        float timeFloat = BitConverter.ToSingle(timeBytes, 0);
+
+        TimeSpan time = TimeSpan.FromHours(timeFloat);
 
         int day   = (dayBytes[0] << 24
                   |  dayBytes[1] << 16
@@ -75,6 +82,7 @@ public class UserCommands : ModuleBase<SocketCommandContext>
                   | yearBytes[3] << 0;
 
         string responseText = Localization.Get("disc_cmd_game_date_response").KeyFormat(
+            ("time", time.ToString("hh':'mm")),
             ("day", day.ToString().PadLeft(2, '0')), 
             ("month", month.ToString().PadLeft(2, '0')), 
             ("year", year)
